@@ -261,6 +261,11 @@ export function SignupForm() {
           <Button type="submit" variant="ochre" size="xl" disabled={submitting} className="w-full">
             {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Отправляем…</> : "Отправить заявку"}
           </Button>
+          {submitError && (
+            <p className="mt-3 rounded-sm border border-destructive/40 bg-destructive/10 p-3 text-center text-sm text-destructive whitespace-pre-wrap break-words select-text">
+              {submitError}
+            </p>
+          )}
           <p className="mt-3 text-center text-[11px] text-muted-foreground">
             Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
           </p>
