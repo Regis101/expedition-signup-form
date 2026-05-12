@@ -243,7 +243,8 @@ export function SignupForm() {
         </div>
         <div>
           <Label htmlFor={ids.endDate} className="text-bone/90 mb-2 block">Дата конца *</Label>
-          <Input id={ids.endDate} type="date" value={values.endDate} onChange={(e) => update("endDate", e.target.value)} min={values.startDate || undefined} className={fieldCls + " [color-scheme:dark]"} />
+          <Input id={ids.endDate} type="date" value={values.endDate} readOnly tabIndex={-1} className={fieldCls + " [color-scheme:dark] cursor-not-allowed opacity-80"} />
+          <p className="mt-1 text-[11px] text-muted-foreground">Рассчитывается автоматически по длительности маршрута</p>
           {errors.endDate && <p className={errCls}>{errors.endDate}</p>}
         </div>
         <div className="md:col-span-2">
