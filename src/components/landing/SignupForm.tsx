@@ -144,27 +144,26 @@ export function SignupForm() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const res = await submit({
-        data: {
-          lastName: parsed.data.lastName,
-          firstName: parsed.data.firstName,
-          middleName: parsed.data.middleName ?? "",
-          age: Number(parsed.data.age),
-          phone: parsed.data.phone,
-          email: parsed.data.email,
-          city: parsed.data.city,
-          route: parsed.data.route,
-          startDate: toRu(parsed.data.startDate),
-          endDate: toRu(parsed.data.endDate),
-          comments: parsed.data.comments ?? "",
-        },
+      const { error } = await supabase.from("signups").insert({
+        last_name: parsed.data.lastName,
+        first_name: parsed.data.firstName,
+        middle_name: parsed.data.middleName || null,
+        age: Number(parsed.data.age),
+        phone: parsed.data.phone,
+        email: parsed.data.email,
+        city: parsed.data.city,
+        route: parsed.data.route,
+        start_date: parsed.data.startDate,
+        end_date: parsed.data.endDate,
+        comments: parsed.data.comments || null,
       });
-      if (res.ok) {
+      if (error) {
+        const msg = `Не удалось сохранить заявку: ${error.message}`;
+        setSubmitError(msg);
+        toast.error(msg);
+      } else {
         setSuccess(true);
         setValues(initial);
-      } else {
-        setSubmitError(res.error);
-        toast.error(res.error);
       }
     } catch (err) {
       console.error(err);
