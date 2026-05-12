@@ -72,6 +72,7 @@ export function SignupForm() {
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const submit = useServerFn(submitSignup);
   const ids = {
@@ -142,6 +143,7 @@ export function SignupForm() {
     }
 
     setSubmitting(true);
+    setSubmitError(null);
     try {
       const res = await submit({
         data: {
@@ -162,11 +164,15 @@ export function SignupForm() {
         setSuccess(true);
         setValues(initial);
       } else {
+        setSubmitError(res.error);
         toast.error(res.error);
       }
     } catch (err) {
       console.error(err);
-      toast.error("Не удалось отправить заявку. Попробуйте позже.");
+      const msg =
+        err instanceof Error ? `${err.name}: ${err.message}` : "Сетевая ошибка при отправке формы.";
+      setSubmitError(msg);
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
