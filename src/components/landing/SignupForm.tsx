@@ -67,6 +67,26 @@ function toRu(iso: string) {
   return `${d}.${m}.${y}`;
 }
 
+function formatSubmitError(params: {
+  method: string;
+  status?: number | null;
+  statusText?: string | null;
+  responseText?: unknown;
+}) {
+  const responseText =
+    typeof params.responseText === "string"
+      ? params.responseText
+      : JSON.stringify(params.responseText, null, 2);
+
+  return [
+    "Не удалось сохранить заявку.",
+    `Метод/функция: ${params.method}`,
+    `HTTP статус: ${params.status ?? "не получен"}`,
+    `Статус текст: ${params.statusText || "не получен"}`,
+    `Ответ сервера: ${responseText || "пустой ответ"}`,
+  ].join("\n");
+}
+
 export function SignupForm() {
   const [values, setValues] = useState<FormValues>(initial);
   const [errors, setErrors] = useState<Errors>({});
@@ -144,7 +164,7 @@ export function SignupForm() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const { error } = await supabase.from("signups").insert({
+      const { error, status, statusText } = await supabase.from("signups").insert({
         last_name: parsed.data.lastName,
         first_name: parsed.data.firstName,
         middle_name: parsed.data.middleName || null,
@@ -158,7 +178,13 @@ export function SignupForm() {
         comments: parsed.data.comments || null,
       });
       if (error) {
-        const msg = `Не удалось сохранить заявку: ${error.message}`;
+        console.error("SignupForm.onSubmit insert failed", { status, statusText, error });
+        const msg = formatSubmitError({
+          method: 'SignupForm.onSubmit -> supabase.from("signups").insert',
+          status,
+          statusText,
+          responseText: error,
+        });
         setSubmitError(msg);
         toast.error(msg);
       } else {
@@ -166,9 +192,14 @@ export function SignupForm() {
         setValues(initial);
       }
     } catch (err) {
-      console.error(err);
-      const msg =
-        err instanceof Error ? `${err.name}: ${err.message}` : "Сетевая ошибка при отправке формы.";
+      console.error("SignupForm.onSubmit unexpected failure", err);
+      const msg = formatSubmitError({
+        method: "SignupForm.onSubmit catch",
+        responseText:
+          err instanceof Error
+            ? { name: err.name, message: err.message, stack: err.stack }
+            : err,
+      });
       setSubmitError(msg);
       toast.error(msg);
     } finally {
