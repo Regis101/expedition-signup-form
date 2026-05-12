@@ -3,6 +3,7 @@ export type Route = {
   title: string;
   region: string;
   duration: string;
+  durationDays: number;
   description: string;
   dates: string;
   price: string;
