@@ -78,7 +78,16 @@ export const submitSignup = createServerFn({ method: "POST" })
     if (!res.ok) {
       const body = await res.text();
       console.error(`Sheets append failed [${res.status}]: ${body}`);
-      return { ok: false as const, error: "Не удалось сохранить заявку. Попробуйте ещё раз." };
+      let hint = "Не удалось сохранить заявку.";
+      if (res.status === 403) {
+        hint =
+          "Нет доступа к таблице (403). Откройте указанную Google‑таблицу и предоставьте подключённому Google‑аккаунту права редактора, либо измените SHEETS_SPREADSHEET_ID на свою таблицу.";
+      } else if (res.status === 404) {
+        hint = "Таблица не найдена (404). Проверьте SHEETS_SPREADSHEET_ID — это ID из URL между /d/ и /edit.";
+      } else if (res.status === 400) {
+        hint = `Ошибка диапазона/листа (400). Проверьте имя листа SHEETS_SHEET_NAME (по умолчанию «Лист1»). Ответ: ${body.slice(0, 200)}`;
+      }
+      return { ok: false as const, error: `${hint} [HTTP ${res.status}]` };
     }
 
     return { ok: true as const };
