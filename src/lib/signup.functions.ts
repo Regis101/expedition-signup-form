@@ -36,7 +36,7 @@ export const submitSignup = createServerFn({ method: "POST" })
     const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
     const GOOGLE_SHEETS_API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
     const SPREADSHEET_ID = process.env.SHEETS_SPREADSHEET_ID;
-    const SHEET_NAME = process.env.SHEETS_SHEET_NAME || "Sheet1";
+    const SHEET_NAME = process.env.SHEETS_SHEET_NAME || "Лист1";
 
     if (!LOVABLE_API_KEY || !GOOGLE_SHEETS_API_KEY) {
       console.error("Missing connector credentials");
