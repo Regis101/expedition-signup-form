@@ -82,8 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Lovable App" },
       { name: "twitter:description", content: "A Russian-language landing page for \"Wild Trails\" travel agency, offering adventure tours across Russia." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/36166ee5-7f13-4bbf-8a3e-c9614c26cd6a/id-preview-cbe019e9--435a5914-622a-4806-9562-72510703256e.lovable.app-1778595804684.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/36166ee5-7f13-4bbf-8a3e-c9614c26cd6a/id-preview-cbe019e9--435a5914-622a-4806-9562-72510703256e.lovable.app-1778595804684.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/096bd989-91c4-44df-8ab9-6aecee31f14c/id-preview-14d62481--435a5914-622a-4806-9562-72510703256e.lovable.app-1778596657721.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/096bd989-91c4-44df-8ab9-6aecee31f14c/id-preview-14d62481--435a5914-622a-4806-9562-72510703256e.lovable.app-1778596657721.png" },
     ],
     links: [
       {
