@@ -100,6 +100,20 @@ export function SignupForm() {
     return () => window.removeEventListener("dt:pick-route", onPick as EventListener);
   }, []);
 
+  // Auto-compute end date from chosen route duration + start date
+  useEffect(() => {
+    if (!values.startDate || !values.route) return;
+    const route = ROUTES.find((r) => r.title === values.route);
+    if (!route) return;
+    const start = new Date(values.startDate + "T00:00:00");
+    if (Number.isNaN(start.getTime())) return;
+    const end = new Date(start);
+    end.setDate(start.getDate() + route.durationDays - 1);
+    const iso = end.toISOString().slice(0, 10);
+    setValues((v) => (v.endDate === iso ? v : { ...v, endDate: iso }));
+    setErrors((e) => (e.endDate ? { ...e, endDate: undefined } : e));
+  }, [values.startDate, values.route]);
+
   function update<K extends keyof FormValues>(key: K, val: FormValues[K]) {
     setValues((v) => ({ ...v, [key]: val }));
     if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
