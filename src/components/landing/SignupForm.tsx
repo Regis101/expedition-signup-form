@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { ROUTE_TITLES } from "./routes-data";
+import { ROUTE_TITLES, ROUTES } from "./routes-data";
 import { submitSignup } from "@/lib/signup.functions";
 
 const formSchema = z.object({
@@ -99,6 +99,20 @@ export function SignupForm() {
     window.addEventListener("dt:pick-route", onPick as EventListener);
     return () => window.removeEventListener("dt:pick-route", onPick as EventListener);
   }, []);
+
+  // Auto-compute end date from chosen route duration + start date
+  useEffect(() => {
+    if (!values.startDate || !values.route) return;
+    const route = ROUTES.find((r) => r.title === values.route);
+    if (!route) return;
+    const start = new Date(values.startDate + "T00:00:00");
+    if (Number.isNaN(start.getTime())) return;
+    const end = new Date(start);
+    end.setDate(start.getDate() + route.durationDays - 1);
+    const iso = end.toISOString().slice(0, 10);
+    setValues((v) => (v.endDate === iso ? v : { ...v, endDate: iso }));
+    setErrors((e) => (e.endDate ? { ...e, endDate: undefined } : e));
+  }, [values.startDate, values.route]);
 
   function update<K extends keyof FormValues>(key: K, val: FormValues[K]) {
     setValues((v) => ({ ...v, [key]: val }));
@@ -229,7 +243,8 @@ export function SignupForm() {
         </div>
         <div>
           <Label htmlFor={ids.endDate} className="text-bone/90 mb-2 block">Дата конца *</Label>
-          <Input id={ids.endDate} type="date" value={values.endDate} onChange={(e) => update("endDate", e.target.value)} min={values.startDate || undefined} className={fieldCls + " [color-scheme:dark]"} />
+          <Input id={ids.endDate} type="date" value={values.endDate} readOnly tabIndex={-1} className={fieldCls + " [color-scheme:dark] cursor-not-allowed opacity-80"} />
+          <p className="mt-1 text-[11px] text-muted-foreground">Рассчитывается автоматически по длительности маршрута</p>
           {errors.endDate && <p className={errCls}>{errors.endDate}</p>}
         </div>
         <div className="md:col-span-2">
