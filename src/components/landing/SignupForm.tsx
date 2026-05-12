@@ -22,7 +22,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { ROUTE_TITLES, ROUTES } from "./routes-data";
-import { submitSignup } from "@/lib/signup.functions";
+
 
 const formSchema = z.object({
   lastName: z.string().trim().min(1, "Укажите фамилию").max(80),
