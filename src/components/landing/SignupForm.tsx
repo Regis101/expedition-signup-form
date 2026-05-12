@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { ROUTE_TITLES } from "./routes-data";
+import { ROUTE_TITLES, ROUTES } from "./routes-data";
 import { submitSignup } from "@/lib/signup.functions";
 
 const formSchema = z.object({
