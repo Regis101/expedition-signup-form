@@ -74,7 +74,6 @@ export function SignupForm() {
   const [success, setSuccess] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const submit = useServerFn(submitSignup);
   const ids = {
     lastName: useId(),
     firstName: useId(),
