@@ -165,17 +165,17 @@ export function SignupForm() {
     setSubmitError(null);
     try {
       const { error, status, statusText } = await supabase.from("signups").insert({
-        last_name: parsed.data.lastName,
-        first_name: parsed.data.firstName,
-        middle_name: parsed.data.middleName || null,
-        age: Number(parsed.data.age),
-        phone: parsed.data.phone,
-        email: parsed.data.email,
-        city: parsed.data.city,
-        route: parsed.data.route,
-        start_date: parsed.data.startDate,
-        end_date: parsed.data.endDate,
-        comments: parsed.data.comments || null,
+        "Фамилия": parsed.data.lastName,
+        "Имя": parsed.data.firstName,
+        "Отчество": parsed.data.middleName || null,
+        "Возраст": Number(parsed.data.age),
+        "Номер телефона": parsed.data.phone,
+        "Почта": parsed.data.email,
+        "Город проживания": parsed.data.city,
+        "Название маршрута": parsed.data.route,
+        "Дата начала": parsed.data.startDate,
+        "Дата конца": parsed.data.endDate,
+        "Комментарии": parsed.data.comments || null,
       });
       if (error) {
         console.error("SignupForm.onSubmit insert failed", { status, statusText, error });
