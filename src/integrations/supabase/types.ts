@@ -16,49 +16,49 @@ export type Database = {
     Tables: {
       signups: {
         Row: {
-          age: number
-          city: string
-          comments: string | null
           created_at: string
-          email: string
-          end_date: string
-          first_name: string
           id: string
-          last_name: string
-          middle_name: string | null
-          phone: string
-          route: string
-          start_date: string
+          Возраст: number
+          "Город проживания": string
+          "Дата конца": string
+          "Дата начала": string
+          Имя: string
+          Комментарии: string | null
+          "Название маршрута": string
+          "Номер телефона": string
+          Отчество: string | null
+          Почта: string
+          Фамилия: string
         }
         Insert: {
-          age: number
-          city: string
-          comments?: string | null
           created_at?: string
-          email: string
-          end_date: string
-          first_name: string
           id?: string
-          last_name: string
-          middle_name?: string | null
-          phone: string
-          route: string
-          start_date: string
+          Возраст: number
+          "Город проживания": string
+          "Дата конца": string
+          "Дата начала": string
+          Имя: string
+          Комментарии?: string | null
+          "Название маршрута": string
+          "Номер телефона": string
+          Отчество?: string | null
+          Почта: string
+          Фамилия: string
         }
         Update: {
-          age?: number
-          city?: string
-          comments?: string | null
           created_at?: string
-          email?: string
-          end_date?: string
-          first_name?: string
           id?: string
-          last_name?: string
-          middle_name?: string | null
-          phone?: string
-          route?: string
-          start_date?: string
+          Возраст?: number
+          "Город проживания"?: string
+          "Дата конца"?: string
+          "Дата начала"?: string
+          Имя?: string
+          Комментарии?: string | null
+          "Название маршрута"?: string
+          "Номер телефона"?: string
+          Отчество?: string | null
+          Почта?: string
+          Фамилия?: string
         }
         Relationships: []
       }
